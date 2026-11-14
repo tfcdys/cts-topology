@@ -1,0 +1,33 @@
+{
+  "format_version": 1,
+  "name": "sinks_grid16",
+  "count": 16,
+  "seed": null,
+  "bounds_um": {
+    "xmin": 0.0,
+    "xmax": 1000.0,
+    "ymin": 0.0,
+    "ymax": 1000.0
+  },
+  "capacitance_ff": {
+    "min": 20.0,
+    "max": 20.0,
+    "mode": "uniform"
+  },
+  "distribution": "digitized 12x12 dotted-grid H pattern; 16 blue sink markers",
+  "grid": {
+    "columns": 12,
+    "rows": 12,
+    "origin": "top-left",
+    "spacing_um": 83.33333333333333,
+    "center_intersection": [
+      6,
+      6
+    ]
+  },
+  "source": "uploaded image (179x177 px), red center at grid intersection (6,6)",
+  "note": "Coordinates digitized from the source image. The image has no capacitance data; all 16 sink loads are set to a uniform 20 fF, and the topology algorithm is run with capacitance awareness disabled by default.",
+  "file": "data/cases/sinks_grid16.csv",
+  "source_image": "docs/assets/grid16_source.png",
+  "capacitance_aware": false
+}

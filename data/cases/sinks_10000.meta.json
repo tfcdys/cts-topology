@@ -1,0 +1,10 @@
+{
+  "format_version": 1,
+  "name": "sinks_10000",
+  "count": 10000,
+  "seed": 14913277170964254116,
+  "bounds_um": {"xmin": 0.0, "xmax": 1000.0, "ymin": 0.0, "ymax": 1000.0},
+  "capacitance_ff": {"min": 5.0, "max": 50.0},
+  "distribution": "72% gaussian clusters + 28% uniform background",
+  "file": "data/cases/sinks_10000.csv"
+}

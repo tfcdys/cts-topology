@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Build outputs
+build/
+*.o
+
+# Local generated results (all evaluation/topology/visualization artifacts)
+results/
+
+# Local caches and scratch data
+.cache/
+.ref/
+
+# Crash dumps
+core
+core.*
