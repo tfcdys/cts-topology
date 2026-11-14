@@ -1,7 +1,7 @@
 # CTS Topology
 
-一个面向 EDA / Clock Tree Synthesis 的 C++17 拓扑构造实验项目。项目实现了
-8 种 clock tree / clock routing 拓扑，每种拓扑都有独立源文件和独立可执行文件，
+面向 EDA / Clock Tree Synthesis 的拓扑构造实验项目。项目实现了
+6种经典的 clock tree / clock routing 拓扑（不保证标准啊），每种拓扑都有独立源文件和独立可执行文件，
 并配套了平面 sink case 生成、Manhattan 线长/路径评估、可视化和批量实验脚本。
 
 > 仓库：<https://github.com/tfcdys/cts-topology>
@@ -26,12 +26,12 @@
 
 ## 项目内容
 
-- 8 种拓扑：H-tree、ZST-DME、BST-DME、PT-DME、HP-DME、GH-tree、SALT、SLLT。
+- 6 种拓扑：H-tree、ZST-DME、BST-DME、GH-tree、SALT、SLLT；PT-DME、HP-DME是自己弄着玩儿的，不必在意。
 - 输入：带电容和二维坐标的平面 sink case（CSV）。
 - 输出：rooted clock tree（节点、边、sink 映射）JSON。
 - 评估：sink 覆盖率、完整树、单根无环、Manhattan 总线长、最大/最小
   root-to-sink 路径、skew。
-- 可视化：欧式/Manhattan L 型连线；部分拓扑按实验要求只输出 Manhattan。
+- 可视化：欧式/Manhattan L 型连线；。
 - 实验：16/100/1000 sink 的 8 算法对比，5 次重复取中位数。
 - 测试：0–5 节点、1000 random、collinear、duplicate、确定性等。
 
@@ -42,11 +42,11 @@
 | **H-tree** | 自适应四叉 H-tree | 经典 H-tree 结构，本项目独立实现 |
 | **ZST-DME** | Zero-Skew Tree + DME | <https://github.com/geziangfinn/ZSTDME> |
 | **BST-DME** | Bounded-Skew Tree + DME | <https://github.com/abk-openroad/BST-DME> |
-| **PT-DME** | Delaunay + 贪心极大独立集 + 并行三元 DME | 本项目 [docs/pt-dme.md](docs/pt-dme.md) |
-| **HP-DME** | 路径感知三元合并 + 离群点四终端 H-tree | 本项目 [docs/hp_dme_opti.md](docs/hp_dme_opti.md) |
 | **GH-tree** | K-means 四区域 + 递归 generalized H-tree | <https://github.com/The-OpenROAD-Project/TritonCTS> |
 | **SALT** | FLUTE SMT + shallow-light Steiner 后处理 | <https://github.com/OSCC-Project/iEDA/tree/master/src/operation/iCTS>、<https://github.com/chengengjie/salt> |
 | **SLLT** | BST-DME 与 SALT 融合 | iEDA/iCTS `bstSaltTree`，见 [docs/salt_sllt_implementation.md](docs/salt_sllt_implementation.md) |
+| **PT-DME** | Delaunay + 贪心极大独立集 + 并行三元 DME | 本项目 [docs/pt-dme.md](docs/pt-dme.md) |
+| **HP-DME** | 路径感知三元合并 + 离群点四终端 H-tree | 本项目 [docs/hp_dme_opti.md](docs/hp_dme_opti.md) |
 
 依赖：
 
@@ -182,11 +182,11 @@ case 名形如 `sinks_N` 且文件不存在时，`run_cts.sh` 会自动生成 N 
 | H-tree | 2008/2007 | 52255.853 | 1175.999 | 864.435 | 311.564 | 0.400 |
 | ZST-DME | 2017/2016 | 34536.295 | 924.139 | 924.139 | 0.000 | 100.191 |
 | BST-DME (B=100) | 1999/1998 | 34075.794 | 949.139 | 865.500 | 83.638 | 99.803 |
-| PT-DME | 1500/1499 | 43088.005 | 1934.805 | 809.555 | 1125.250 | 5.401 |
-| HP-DME | 1542/1541 | 56978.416 | 1254.971 | 814.972 | 439.999 | 22.824 |
 | GH-tree | 2485/2484 | 40033.837 | 1024.869 | 788.418 | 236.451 | 1.029 |
 | SLLT | 1997/1996 | 27828.324 | 929.139 | 34.876 | 894.263 | 109.219 |
 | SALT | 1997/1996 | 27634.601 | 988.707 | 16.342 | 972.365 | 63.093 |
+| PT-DME | 1500/1499 | 43088.005 | 1934.805 | 809.555 | 1125.250 | 5.401 |
+| HP-DME | 1542/1541 | 56978.416 | 1254.971 | 814.972 | 439.999 | 22.824 |
 
 所有结果均通过覆盖率、完整树、单根无环和 sink 叶节点检查。
 
@@ -200,7 +200,7 @@ case 名形如 `sinks_N` 且文件不存在时，`run_cts.sh` 会自动生成 N 
 
 SLLT：
 
-<img src="docs/assets/sllt_1000_manhattan.png" width="520">
+<img src="docs/assets/sllt_1000_manhattan.png" width="440">
 
 ### 线长与 skew 对比
 
@@ -238,12 +238,6 @@ SLLT：
 | BST-DME (B=100) | 16 | 31/30 | 4301.667 | 790.000 | 730.000 | 60.000 | 0.032 |
 | BST-DME (B=100) | 100 | 199/198 | 7913.689 | 791.941 | 743.744 | 48.197 | 0.279 |
 | BST-DME (B=100) | 1000 | 1999/1998 | 34075.794 | 949.139 | 865.500 | 83.638 | 99.803 |
-| PT-DME | 16 | 24/23 | 5833.333 | 1302.083 | 447.917 | 854.167 | 0.855 |
-| PT-DME | 100 | 150/149 | 11471.135 | 1646.126 | 640.987 | 1005.140 | 2.238 |
-| PT-DME | 1000 | 1500/1499 | 43088.005 | 1934.805 | 809.555 | 1125.250 | 5.401 |
-| HP-DME | 16 | 24/23 | 6666.667 | 756.348 | 660.319 | 96.029 | 0.750 |
-| HP-DME | 100 | 162/161 | 15814.219 | 1084.992 | 470.370 | 614.621 | 2.223 |
-| HP-DME | 1000 | 1542/1541 | 56978.416 | 1254.971 | 814.972 | 439.999 | 22.824 |
 | GH-tree | 16 | 31/30 | 4416.667 | 833.333 | 750.000 | 83.333 | 0.011 |
 | GH-tree | 100 | 247/246 | 9728.442 | 1121.131 | 480.548 | 640.584 | 0.078 |
 | GH-tree | 1000 | 2485/2484 | 40033.837 | 1024.869 | 788.418 | 236.451 | 1.029 |
@@ -253,6 +247,12 @@ SLLT：
 | SALT | 16 | 30/29 | 4166.669 | 750.001 | 416.667 | 333.334 | 25.923 |
 | SALT | 100 | 197/196 | 6501.059 | 871.419 | 17.974 | 853.445 | 27.768 |
 | SALT | 1000 | 1997/1996 | 27634.601 | 988.707 | 16.342 | 972.365 | 63.093 |
+| PT-DME | 16 | 24/23 | 5833.333 | 1302.083 | 447.917 | 854.167 | 0.855 |
+| PT-DME | 100 | 150/149 | 11471.135 | 1646.126 | 640.987 | 1005.140 | 2.238 |
+| PT-DME | 1000 | 1500/1499 | 43088.005 | 1934.805 | 809.555 | 1125.250 | 5.401 |
+| HP-DME | 16 | 24/23 | 6666.667 | 756.348 | 660.319 | 96.029 | 0.750 |
+| HP-DME | 100 | 162/161 | 15814.219 | 1084.992 | 470.370 | 614.621 | 2.223 |
+| HP-DME | 1000 | 1542/1541 | 56978.416 | 1254.971 | 814.972 | 439.999 | 22.824 |
 
 </details>
 
@@ -315,9 +315,7 @@ results/hp_vs_pt_comparison.csv
 
 - [H-tree 算法](docs/htree_algorithm.md)
 - [ZST-DME / BST-DME](docs/dme_algorithms.md)
-- [PT-DME 设计](docs/pt-dme.md)
 - [PT-DME 实现与测试](docs/pt_dme_implementation.md)
-- [HP-DME 设计任务](docs/hp_dme_opti.md)
 - [HP-DME 实现与 PT 对比](docs/hp_dme_implementation.md)
 - [GH-tree 实现与实验](docs/gh_tree_implementation.md)
 - [SALT / SLLT 实现与实验](docs/salt_sllt_implementation.md)
